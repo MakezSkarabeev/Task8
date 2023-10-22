@@ -15,6 +15,7 @@ struct ContentView: View {
     @State var heightScale: Double = 1
     @State var widthScale: Double = 1
     @State var dragSide: UnitPoint = .zero
+    @State var offset: CGFloat = 0
 
     var body: some View {
         ZStack {
@@ -41,12 +42,14 @@ struct ContentView: View {
                                 heightScale = pow(newValue, 1/8)
                                 widthScale = 1 / pow(newValue, 1/10)
                                 dragSide = .bottom
+                                offset = -2 * newValue
 
                             case _ where newValue < 0:
                                 progress = 0
                                 heightScale = pow(1 - newValue, 1/8)
                                 widthScale = 1 / pow(1 - newValue, 1/10)
                                 dragSide = .top
+                                offset = -2 * newValue
 
                             default:
                                 progress = newValue
@@ -57,8 +60,8 @@ struct ContentView: View {
                             lastDragValue = progress
                             heightScale = 1
                             widthScale = 1
+                            offset = 0
                         })
-
                 )
                 .frame(width: 80, height: sliderHeight)
                 .scaleEffect(
@@ -67,6 +70,7 @@ struct ContentView: View {
                     anchor: dragSide
                 )
                 .animation(.default, value: heightScale)
+                .offset(y: offset)
         }
     }
 }
