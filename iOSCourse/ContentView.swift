@@ -53,6 +53,7 @@ struct ContentView: View {
 
                             default:
                                 progress = newValue
+                                offset = 0
                             }
                             print(newValue)
                         }
@@ -70,6 +71,7 @@ struct ContentView: View {
                     anchor: dragSide
                 )
                 .animation(.default, value: heightScale)
+                .animation(.default, value: offset)
                 .offset(y: offset)
         }
     }
